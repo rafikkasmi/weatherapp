@@ -21,12 +21,16 @@
         });
     let todaydata;
     let weekdata = [];
-    // };
+    function goBack() {
+        //set data back to default
+        geodata.set({ lat: 36.7538, long: 3.0588, changed: false });
+        dispatch("prevPage");
+    }
 </script>
 
 <main in:fade>
     {#if todaydata}
-        <button class="back flex-center" on:click={() => dispatch("prevPage")}
+        <button class="back flex-center" on:click={goBack}
             ><svg
                 viewBox="0 0 24 24"
                 fill="none"

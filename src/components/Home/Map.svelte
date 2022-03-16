@@ -1,7 +1,7 @@
 <script>
     import { LeafletMap, Marker, TileLayer } from "svelte-leafletjs";
     import { latLng } from "leaflet";
-    import { onMount } from "svelte";
+    import { onMount, onDestroy } from "svelte";
     import { geodata } from "../../stores/geodata";
     const mapOptions = {
         center: [36.7538, 3.0588],
@@ -15,15 +15,14 @@
         attribution: "© OpenStreetMap contributors",
     };
     onMount(() => {
-        geodata.subscribe(({ lat, long }) => {
-            console.log(latLng);
-            leafletMap
-                .getMap()
-                .setView(latLng(lat, long), 11, { animation: true });
-        });
+        map = leafletMap.getMap();
     });
-
     let leafletMap;
+    let map;
+    let unsubscribe = geodata.subscribe(({ lat, long }) => {
+        map?.flyTo([lat, long], 11);
+    });
+    onDestroy(unsubscribe);
 </script>
 
 <div class="container">

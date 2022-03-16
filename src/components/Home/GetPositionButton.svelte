@@ -1,14 +1,28 @@
 <script>
     import { geodata } from "../../stores/geodata";
     function getPosition() {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                let lat = position.coords.latitude;
-                let long = position.coords.longitude;
-                geodata.set({ lat, long, changed: true });
-            },
-            (err) => console.error(err)
-        );
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    let lat = position.coords.latitude;
+                    let long = position.coords.longitude;
+                    geodata.set({ lat, long, changed: true });
+                },
+                () => {
+                    fetch(
+                        "https://location.services.mozilla.com/v1/geolocate?key=test"
+                    )
+                        .then((el) => el.json())
+                        .then((res) => {
+                            geodata.set({
+                                lat: res.location.lat,
+                                long: res.location.lng,
+                                changed: true,
+                            });
+                        });
+                }
+            );
+        }
     }
 </script>
 
