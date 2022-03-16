@@ -4,7 +4,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
-import postcss from 'rollup-plugin-postcss';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -39,14 +38,10 @@ export default {
 	},
 	plugins: [
 		svelte({
-			emitCss: true,
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production
 			}
-		}),
-		postcss({
-			extract: true
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance

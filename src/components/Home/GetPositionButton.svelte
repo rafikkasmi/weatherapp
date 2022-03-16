@@ -1,7 +1,6 @@
 <script>
     import { geodata } from "../../stores/geodata";
     function getPosition() {
-        console.log("nikrbk");
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 let lat = position.coords.latitude;
